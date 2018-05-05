@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="project_2018_template"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/cygdrive/c/Users/Louis Colin/Documents/universite/2_Bac/Q4/info Clion/project_2018_template/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/Louis\ Colin/Documents/universite/2_Bac/Q4/info\ Clion/project_2018_template/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/Louis\ Colin/Documents/universite/2_Bac/Q4/info\ Clion/project_2018_template/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/Louis\ Colin/Documents/universite/2_Bac/Q4/info\ Clion/project_2018_template/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/Louis\ Colin/Documents/universite/2_Bac/Q4/info\ Clion/project_2018_template/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/cygdrive/c/Users/Louis Colin/Documents/universite/2_Bac/Q4/info Clion/project_2018_template/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/Louis\ Colin/Documents/universite/2_Bac/Q4/info\ Clion/project_2018_template/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/Louis\ Colin/Documents/universite/2_Bac/Q4/info\ Clion/project_2018_template/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/Louis\ Colin/Documents/universite/2_Bac/Q4/info\ Clion/project_2018_template/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/Louis\ Colin/Documents/universite/2_Bac/Q4/info\ Clion/project_2018_template/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/cygdrive/c/Users/Louis Colin/Documents/universite/2_Bac/Q4/info Clion/project_2018_template/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/Louis\ Colin/Documents/universite/2_Bac/Q4/info\ Clion/project_2018_template/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/Louis\ Colin/Documents/universite/2_Bac/Q4/info\ Clion/project_2018_template/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/Louis\ Colin/Documents/universite/2_Bac/Q4/info\ Clion/project_2018_template/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/Louis\ Colin/Documents/universite/2_Bac/Q4/info\ Clion/project_2018_template/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="project_2018_template">
+				<Option output="/cygdrive/c/Users/Louis Colin/Documents/universite/2_Bac/Q4/info Clion/project_2018_template/cmake-build-debug/project_2018_template.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/cygdrive/c/Users/Louis Colin/Documents/universite/2_Bac/Q4/info Clion/project_2018_template/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/cygdrive/c/Users/Louis Colin/Documents/universite/2_Bac/Q4/info Clion/project_2018_template/libfractal"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/6.4.0/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/6.4.0/../../../../lib/../include/w32api"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/Louis\ Colin/Documents/universite/2_Bac/Q4/info\ Clion/project_2018_template/cmake-build-debug/Makefile&quot;  VERBOSE=1 project_2018_template"/>
+					<CompileFile command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/Louis\ Colin/Documents/universite/2_Bac/Q4/info\ Clion/project_2018_template/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/Louis\ Colin/Documents/universite/2_Bac/Q4/info\ Clion/project_2018_template/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/Louis\ Colin/Documents/universite/2_Bac/Q4/info\ Clion/project_2018_template/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="project_2018_template/fast">
+				<Option output="/cygdrive/c/Users/Louis Colin/Documents/universite/2_Bac/Q4/info Clion/project_2018_template/cmake-build-debug/project_2018_template.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/cygdrive/c/Users/Louis Colin/Documents/universite/2_Bac/Q4/info Clion/project_2018_template/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/cygdrive/c/Users/Louis Colin/Documents/universite/2_Bac/Q4/info Clion/project_2018_template/libfractal"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/6.4.0/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/6.4.0/../../../../lib/../include/w32api"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/Louis\ Colin/Documents/universite/2_Bac/Q4/info\ Clion/project_2018_template/cmake-build-debug/Makefile&quot;  VERBOSE=1 project_2018_template/fast"/>
+					<CompileFile command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/Louis\ Colin/Documents/universite/2_Bac/Q4/info\ Clion/project_2018_template/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/Louis\ Colin/Documents/universite/2_Bac/Q4/info\ Clion/project_2018_template/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/Louis\ Colin/Documents/universite/2_Bac/Q4/info\ Clion/project_2018_template/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/cygdrive/c/Users/Louis Colin/Documents/universite/2_Bac/Q4/info Clion/project_2018_template/cmake-build-debug/tools.c">
+			<Option target="project_2018_template"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/Louis Colin/Documents/universite/2_Bac/Q4/info Clion/project_2018_template/libfractal/fractal.c">
+			<Option target="project_2018_template"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/Louis Colin/Documents/universite/2_Bac/Q4/info Clion/project_2018_template/libfractal/fractal.h">
+			<Option target="project_2018_template"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/Louis Colin/Documents/universite/2_Bac/Q4/info Clion/project_2018_template/main.c">
+			<Option target="project_2018_template"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/Louis Colin/Documents/universite/2_Bac/Q4/info Clion/project_2018_template/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

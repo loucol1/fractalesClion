@@ -1,0 +1,50 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../libfractal/fractal.h
+
+/cygdrive/c/Users/Louis Colin/Documents/universite/2_Bac/Q4/info Clion/project_2018_template/libfractal/fractal.c
+stdlib.h
+-
+fractal.h
+/cygdrive/c/Users/Louis Colin/Documents/universite/2_Bac/Q4/info Clion/project_2018_template/libfractal/fractal.h
+
+/cygdrive/c/Users/Louis Colin/Documents/universite/2_Bac/Q4/info Clion/project_2018_template/libfractal/fractal.h
+
+/cygdrive/c/Users/Louis Colin/Documents/universite/2_Bac/Q4/info Clion/project_2018_template/main.c
+stdio.h
+-
+stdlib.h
+-
+unistd.h
+-
+limits.h
+-
+pthread.h
+-
+semaphore.h
+-
+string.h
+-
+stdbool.h
+-
+fractal.h
+/cygdrive/c/Users/Louis Colin/Documents/universite/2_Bac/Q4/info Clion/project_2018_template/fractal.h
+unistd.h
+-
+sys/types.h
+-
+sys/stat.h
+-
+sys/types.h
+-
+sys/stat.h
+-
+fcntl.h
+-
+

@@ -1,0 +1,4 @@
+"C:\Users\Louis Colin\.CLion2018.1\system\cygwin_cmake\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" "/cygdrive/c/Users/Louis Colin/Documents/universite/2_Bac/Q4/info Clion/project_2018_template"
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /cygdrive/c/Users/Louis Colin/Documents/universite/2_Bac/Q4/info Clion/project_2018_template/cmake-build-debug
