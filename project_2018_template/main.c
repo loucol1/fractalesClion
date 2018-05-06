@@ -25,6 +25,7 @@ sem_t full1;
 sem_t empty2;
 sem_t full2;
 int le_plus_grand=INT_MIN;
+int compteur_de_fichier;
 
 
 
@@ -32,6 +33,8 @@ struct fractal *tab1[20];//20? peut etre a changer!!!
 //tab1->value=0;//place dans le tableau a laquelle il faut placer la prochaine fractal dont il faut calculer la valeur des pixels.
 struct fractal *tab2[20];
 //tab2->value=0;//place dans le tableau a laquelle il faut placer la prochaine fractal dont la valeur des pixels est deja calculee.
+
+
 
 
 
@@ -45,21 +48,22 @@ struct fractal *tab2[20];
  *
  */
 
-void *producer (void * param) {//Si flag est true, alors c'est qu'il y a -d ds la main (int check, int flag)
+void *producer1 (void * param) {//il y a -d ds la main
 
-    int *check=(int *)param;
-    int flag=*(check+1);
+    char *check=(char *)param;
+
+
 
 
 
     int compteur = 0;
 
-    while (compteur != *check) {
+    while (compteur != compteur_de_fichier) {
         char tiret = '-';
         /*
          * Si le fichier est un tiret
          */
-        if ((flag && strcmp(*argv[3 + compteur], &tiret) == 0) || (!flag && strcmp(*argv[2 + compteur], &tiret) == 0)) {
+        if (strcmp((check+compteur), &tiret) == 0)  {
             char lpBuffer[200];
 
 
@@ -131,18 +135,7 @@ void *producer (void * param) {//Si flag est true, alors c'est qu'il y a -d ds l
 
 
             int r;
-            if (flag) {
-                r = open(*argv[3 + compteur], O_RDONLY);//attention, uniquement si -d
-                if (r < 0) {
-                    fprintf(stderr, "%s\n", strerror(errno));
-                }
-
-            } else {
-                r = open(*argv[2 + compteur], O_RDONLY);//attention, uniquement si PAS -d
-                if (r < 0) {
-                    fprintf(stderr, "%s\n", strerror(errno));
-                }
-            }
+            r=open((check+compteur),O_RDONLY);
 
             char caracter;
             ssize_t ret = read(r, &caracter, sizeof(char));
@@ -166,10 +159,241 @@ void *producer (void * param) {//Si flag est true, alors c'est qu'il y a -d ds l
                         }
                     }
                     ret = read(r, &caracter, sizeof(char));
+                    if (ret < 0) {
+                        fprintf(stderr, "%s\n", strerror(errno));
+                    }
                 }
                 char diese = '#';
                 while (strcmp(&caracter, &diese) == 0 &&
                        strcmp(&caracter, &fin_de_doc) != 0) {//Il se peut qu'un doc se termine apres une diese
+                    for (int w = 0; strcmp(&caracter, &fin_de_ligne) !=
+                                    0; w++) {//Si la premier element de la ligne est un diese, il faut aller a la ligne suiv
+                        ret = read(r, &caracter, sizeof(char));
+                        if (ret < 0) {
+                            fprintf(stderr, "%s\n", strerror(errno));
+                        }
+                        if (ret == 0) {
+                            //c'est la fin du fichier
+                        }
+                    }
+                    ret = read(r, &caracter, sizeof(char));
+                    if (ret < 0) {
+                        fprintf(stderr, "%s\n", strerror(errno));
+                    }
+                }
+                if (strcmp(&caracter, &fin_de_doc) != 0) {//a faire uniquement si c'est pas la fin d'un doc
+                    char nom[65];
+                    while (strcmp(&caracter, &vide) != 0) {
+                        strcpy(nom, &caracter);//A TESTER!!!!
+                        ret = read(r, &caracter, sizeof(char));
+                        if (ret < 0) {
+                            fprintf(stderr, "%s\n", strerror(errno));
+                        }
+                    }
+                    ret = read(r, &caracter, sizeof(char));// a faire car il faut passer au caractère suivant
+                    if (ret < 0) {
+                        fprintf(stderr, "%s\n", strerror(errno));
+                    }
+                    char la_largeur[200];//a discuter j'ai mis 200 en ne sachant pas la longeure que pouvait avoir la longeur et la la_largeur mais on parle de 32 bits
+                    while (strcmp(&caracter, &vide) != 0) {
+                        strcpy(la_largeur, &caracter);
+                        ret = read(r, &caracter, sizeof(char));
+                        if (ret < 0) {
+                            fprintf(stderr, "%s\n", strerror(errno));
+                        }
+                    }
+                    int la_largeur2 = atoi(la_largeur);
+                    ret = read(r, &caracter, sizeof(char));// a faire car il faut passer au caractère suivant
+                    if (ret < 0) {
+                        fprintf(stderr, "%s\n", strerror(errno));
+                    }
+                    char la_longeur[200];
+                    while (strcmp(&caracter, &vide) != 0) {
+                        strcpy(la_longeur, &caracter);
+                        ret = read(r, &caracter, sizeof(char));
+                        if (ret < 0) {
+                            fprintf(stderr, "%s\n", strerror(errno));
+                        }
+                    }
+                    int la_longeur2 = atoi(la_longeur);
+                    ret = read(r, &caracter, sizeof(char));
+                    if (ret < 0) {
+                        fprintf(stderr, "%s\n", strerror(errno));
+                    }
+                    char reel[200];
+                    while (strcmp(&caracter, &vide) != 0) {
+                        strcpy(reel, &caracter);
+                        ret = read(r, &caracter, sizeof(char));
+                        if (ret < 0) {
+                            fprintf(stderr, "%s\n", strerror(errno));
+                        }
+                    }
+                    double reel2 = atof(reel);
+                    ret = read(r, &caracter, sizeof(char));
+                    if (ret < 0) {
+                        fprintf(stderr, "%s\n", strerror(errno));
+                    }
+                    char imaginaire[200];
+                    while (strcmp(&caracter, &vide) != 0) {
+                        strcpy(imaginaire, &caracter);
+                        ret = read(r, &caracter, sizeof(char));
+                        if (ret < 0) {
+                            fprintf(stderr, "%s\n", strerror(errno));
+                        }
+                    }
+                    double imaginaire2 = atof(imaginaire);
+
+
+
+                    //fin de la lecture d'une fractal.
+
+
+
+
+
+
+
+
+
+                    struct fractal *fractal_a_creer;
+                    int place;
+                    sem_wait(&empty1);
+                    pthread_mutex_lock(&mutex1);
+                    fractal_a_creer = fractal_new(nom, la_largeur2, la_longeur2, reel2, imaginaire2);
+                    if (sem_getvalue(&full1, &place) != 0) {
+                        fprintf(stderr, "%s\n", strerror(errno));
+                    }
+
+
+                    tab1[place] = fractal_a_creer;
+                    //tab1->value=tab1->value+1;
+                    pthread_mutex_unlock(&mutex1);
+                    sem_post(&full1);
+                }
+
+            }
+
+        }
+        compteur++;
+    }
+}
+
+
+
+void *producer2 (void * param) {//Si flag est true, alors c'est qu'il y a -d ds la main (int check, int flag)
+
+    char *check=(char *)param;
+
+
+
+
+
+    int compteur = 0;
+
+    while (compteur != compteur_de_fichier) {
+        char tiret = '-';
+        /*
+         * Si le fichier est un tiret
+         */
+        if (strcmp((check+compteur), &tiret) == 0){
+            char lpBuffer[200];
+
+
+            printf("Entrez une chaine de caracteres : ");
+            fgets(lpBuffer, sizeof(lpBuffer), stdin);
+            int i = 0;
+            char diese = '#';
+            if (strcmp(&lpBuffer[i], &diese) == 0) {
+                fprintf(stderr, "%s\n", strerror(errno));
+            }
+            char nom[65];
+            char vide = ' ';
+            while (strcmp(&lpBuffer[i], &vide) != 0) {
+                strcat(nom, lpBuffer + i);//Il faut cheker la valeure de retour??
+                i++;
+            }
+
+            i++;
+            char largeur[32];
+
+            while (strcmp(&lpBuffer[i], &vide) != 0) {
+                strcat(largeur, lpBuffer + i);
+                i++;
+            }
+            int largeur2 = atoi(largeur);
+            i++;
+            char hauteur[32];
+            while (strcmp(&lpBuffer[i], &vide) != 0) {
+                strcat(hauteur, lpBuffer + i);
+                i++;
+            }
+            int hauteur2 = atoi(hauteur);
+            i++;
+            char reelle[32];
+            while (strcmp(&lpBuffer[i], &vide) != 0) {
+                strcat(reelle, lpBuffer + i);
+                i++;
+            }
+            double reelle2 = atof(reelle);
+            i++;
+            char imaginaire[10];
+            char n = '\n';
+            while (strcmp(&lpBuffer[i], &n) != 0) {
+                strcat(imaginaire, lpBuffer + i);
+                i++;
+            }
+            double imaginaire2 = atof(imaginaire);
+
+            struct fractal *fractal_a_creer;
+            int place;
+
+            sem_wait(&empty1);
+            pthread_mutex_lock(&mutex1);
+            fractal_a_creer = fractal_new(nom, largeur2, hauteur2, reelle2, imaginaire2);
+            if (sem_getvalue(&full1, &place) != 0) {
+                fprintf(stderr, "%s\n", strerror(errno));
+            }
+
+
+            tab1[place] = fractal_a_creer;
+            //tab1->value=tab1->value+1;
+            pthread_mutex_unlock(&mutex1);
+            sem_post(&full1);
+            compteur++;
+
+
+        }
+        else {
+
+
+            int r;
+            r=open((check+compteur),O_RDONLY);
+
+            char caracter;
+            ssize_t ret = read(r, &caracter, sizeof(char));
+            if (ret < 0) {
+                fprintf(stderr, "%s\n", strerror(errno));
+            }
+            char vide = ' ';
+            char fin_de_ligne = '\n';
+            char fin_de_doc = '\0';//a vérifier
+            while (strcmp(&caracter, &fin_de_doc) != 0) {
+                while (strcmp(&caracter, &vide) == 0 &&
+                       strcmp(&caracter, &fin_de_doc) != 0) {//il se peut que le doc se termine apres une ligne vide
+                    for (int w = 0; strcmp(&caracter, &fin_de_ligne) !=
+                                    0; w++) {//Si le premier element de la ligne est vide, il faut aller a la ligne suivante
+                        ret = read(r, &caracter, sizeof(char));
+                        if (ret < 0) {
+                            fprintf(stderr, "%s\n", strerror(errno));
+                        }
+                        if (ret == 0) {
+                            //c'est la fin du fichier!!!
+                        }
+                    }
+                    ret = read(r, &caracter, sizeof(char));
+                }
+                char diese = '#';
+                while (strcmp(&caracter, &diese) == 0 && strcmp(&caracter, &fin_de_doc) != 0) {//Il se peut qu'un doc se termine apres une diese
                     for (int w = 0; strcmp(&caracter, &fin_de_ligne) !=
                                     0; w++) {//Si la premier element de la ligne est un diese, il faut aller a la ligne suiv
                         ret = read(r, &caracter, sizeof(char));
@@ -450,8 +674,17 @@ int main (int argc, char *argv[]) {
 
 
 
+
         compt = argc - 4;
         nthread = *argv[2];
+        char * argument;
+
+        for(int i=0;i<compt;i++){
+            *(argument+i)=*argv[3+i];
+            compteur_de_fichier++;
+
+        }
+
 
 
 
@@ -459,11 +692,11 @@ int main (int argc, char *argv[]) {
 
         pthread_t thread_pro;
         pthread_t thread_co;
-        int arg[2];
-        arg[0] = compt;
-        arg[1] = 1;//-d ds la main
+        //int arg[2];
+        //arg[0] = compt;
+        //arg[1] = 1;//-d ds la main
         char *doc_fin=argv[argc-1];
-        int err=pthread_create(&(thread_pro),NULL,&producer, arg);
+        int err=pthread_create(&(thread_pro),NULL,&producer1, argument);
         if (err != 0) {
             return (EXIT_FAILURE);
         }
@@ -483,16 +716,25 @@ int main (int argc, char *argv[]) {
         }
     }
 
-    else {
+    else {//pas de -d ds la main
         compt = argc - 3;
         nthread = *argv[2];
+
+
+        char * argument;
+
+        for(int i=0;i<compt;i++){
+            *(argument+i)=*argv[2+i];
+            compteur_de_fichier++;
+
+        }
 
         pthread_t thread_pro;//producteur qui lit les fractal et les met dans un tableau
         pthread_t thread_co;//consommateur final qui compare les valeur calculee
         int arg[2];
         arg[0] = compt;
         arg[1] = 0;//pas de -d ds la main
-        int err=pthread_create(&(thread_pro),NULL,&producer,arg);
+        int err=pthread_create(&(thread_pro),NULL,&producer2,argument);
         if (err != 0) {
             return (EXIT_FAILURE);
         }
@@ -519,30 +761,3 @@ int main (int argc, char *argv[]) {
         return 0;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

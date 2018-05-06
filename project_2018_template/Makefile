@@ -1,5 +1,3 @@
-
-
 CFLAGS = -Wall -std=c99 -g
 LDFLAGS = -lm -pthread  -L$(HOME)/local/lib -lSDL
 LIBFILE = libfractal/libfractal.a
