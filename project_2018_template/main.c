@@ -53,16 +53,16 @@ void *producer (int check, int flag) {//Si flag est true, alors c'est qu'il y a 
 
     while (compteur != check) {
         char tiret = '-';
-                /*
-                 * Si le fichier est un tiret
-                 */
+        /*
+         * Si le fichier est un tiret
+         */
         if ((flag && strcmp(*argv[3 + compteur], &tiret) == 0) || (!flag && strcmp(*argv[2 + compteur], &tiret) == 0)) {
             char lpBuffer[200];
 
             printf("Entrez une chaine de caracteres : ");
             fgets(lpBuffer, sizeof(lpBuffer), stdin);
             int i = 0;
-            char diese='#';
+            char diese = '#';
             if (strcmp(&lpBuffer[i], &diese) == 0) {
                 return -1;
             }
@@ -80,14 +80,14 @@ void *producer (int check, int flag) {//Si flag est true, alors c'est qu'il y a 
                 strcat(largeur, lpBuffer + i);
                 i++;
             }
-            int largeur2=atoi(largeur);
+            int largeur2 = atoi(largeur);
             i++;
             char hauteur[32];
             while (strcmp(&lpBuffer[i], &vide) != 0) {
                 strcat(hauteur, lpBuffer + i);
                 i++;
             }
-            int hauteur2=atoi(hauteur);
+            int hauteur2 = atoi(hauteur);
             i++;
             char reelle[32];
             while (strcmp(&lpBuffer[i], &vide) != 0) {
@@ -125,140 +125,151 @@ void *producer (int check, int flag) {//Si flag est true, alors c'est qu'il y a 
         else {
 
 
-
-        int r;
-        if (flag) {
-            r = open(*argv[3 + compteur], O_RDONLY);//attention, uniquement si -d
-            if (r < 0) {
-                return -1;
-            }
-
-        } else {
-            r = open(*argv[2 + compteur], O_RDONLY);//attention, uniquement si PAS -d
-            if (r < 0) {
-                return -1;
-            }
-        }
-
-        char caracter;
-        int ret = read(r, &caracter,sizeof(char));
-        if (ret < 0) {
-            return (EXIT_FAILURE);
-        }
-        char vide = ' ';
-        char fin_de_ligne = '\n';
-        while (strcmp(&caracter, &vide) == 0) {
-            for (int w = 0; strcmp(&caracter, &fin_de_ligne) != 0; w++) {//Si le premier element de la ligne est vide, il faut aller a la ligne suivante
-                ret = read(r, &caracter, sizeof(char));
-                if (ret < 0) {
-                    return (EXIT_FAILURE);
+            int r;
+            if (flag) {
+                r = open(*argv[3 + compteur], O_RDONLY);//attention, uniquement si -d
+                if (r < 0) {
+                    return -1;
                 }
-                if (ret == 0) {
-                    //c'est la fin du fichier
+
+            } else {
+                r = open(*argv[2 + compteur], O_RDONLY);//attention, uniquement si PAS -d
+                if (r < 0) {
+                    return -1;
                 }
             }
-            ret = read(r, &caracter, sizeof(char));
-        }
-        char diese = '#';
-        while (strcmp(&caracter, &diese) == 0) {
-            for (int w = 0; strcmp(&caracter, &fin_de_ligne) != 0; w++) {//Si la premier element de la ligne est un diese, il faut aller a la ligne suiv
-                ret = read(r, &caracter, sizeof(char));
-                if (ret < 0) {
-                    return (EXIT_FAILURE);
+
+            char caracter;
+            int ret = read(r, &caracter, sizeof(char));
+            if (ret < 0) {
+                return (EXIT_FAILURE);
+            }
+            char vide = ' ';
+            char fin_de_ligne = '\n';
+            char fin_de_doc = '\0';//a vérifier
+            while (strcmp(&caracter, &fin_de_doc) != 0) {
+                while (strcmp(&caracter, &vide) == 0 &&
+                       strcmp(&caracter, &fin_de_doc) != 0) {//il se peut que le doc se termine apres une ligne vide
+                    for (int w = 0; strcmp(&caracter, &fin_de_ligne) !=
+                                    0; w++) {//Si le premier element de la ligne est vide, il faut aller a la ligne suivante
+                        ret = read(r, &caracter, sizeof(char));
+                        if (ret < 0) {
+                            return (EXIT_FAILURE);
+                        }
+                        if (ret == 0) {
+                            //c'est la fin du fichier
+                        }
+                    }
+                    ret = read(r, &caracter, sizeof(char));
                 }
-                if (ret == 0) {
-                    //c'est la fin du fichier
+                char diese = '#';
+                while (strcmp(&caracter, &diese) == 0 &&
+                       strcmp(&caracter, &fin_de_doc) != 0) {//Il se peut qu'un doc se termine apres une diese
+                    for (int w = 0; strcmp(&caracter, &fin_de_ligne) !=
+                                    0; w++) {//Si la premier element de la ligne est un diese, il faut aller a la ligne suiv
+                        ret = read(r, &caracter, sizeof(char));
+                        if (ret < 0) {
+                            return (EXIT_FAILURE);
+                        }
+                        if (ret == 0) {
+                            //c'est la fin du fichier
+                        }
+                    }
+                    ret = read(r, &caracter, sizeof(char));
                 }
+                if (strcmp(&caracter, &fin_de_doc) != 0) {//a faire uniquement si c'est pas la fin d'un doc
+                    char nom[65];
+                    while (strcmp(&caracter, &vide) != 0) {
+                        strcpy(nom, &caracter);//A TESTER!!!!
+                        ret = read(r, &caracter, sizeof(char));
+                        if (ret < 0) {
+                            return (EXIT_FAILURE);
+                        }
+                    }
+                    ret = read(r, &caracter, sizeof(char));// a faire car il faut passer au caractère suivant
+                    if (ret < 0) {
+                        return (EXIT_FAILURE);
+                    }
+                    char la_largeur[200];//a discuter j'ai mis 200 en ne sachant pas la longeure que pouvait avoir la longeur et la la_largeur mais on parle de 32 bits
+                    while (strcmp(&caracter, &vide) != 0) {
+                        strcpy(la_largeur, &caracter);
+                        ret = read(r, &caracter, sizeof(char));
+                        if (ret < 0) {
+                            return (EXIT_FAILURE);
+                        }
+                    }
+                    int la_largeur2 = atoi(la_largeur);
+                    ret = read(r, &caracter, sizeof(char));// a faire car il faut passer au caractère suivant
+                    if (ret < 0) {
+                        return (EXIT_FAILURE);
+                    }
+                    char la_longeur[200];
+                    while (strcmp(&caracter, &vide) != 0) {
+                        strcpy(la_longeur, &caracter);
+                        ret = read(r, &caracter, sizeof(char));
+                        if (ret < 0) {
+                            return (EXIT_FAILURE);
+                        }
+                    }
+                    int la_longeur2 = atoi(la_longeur);
+                    ret = read(r, &caracter, sizeof(char));
+                    if (ret < 0) {
+                        return (EXIT_FAILURE);
+                    }
+                    char reel[200];
+                    while (strcmp(&caracter, &vide) != 0) {
+                        strcpy(reel, &caracter);
+                        ret = read(r, &caracter, sizeof(char));
+                        if (ret < 0) {
+                            return (EXIT_FAILURE);
+                        }
+                    }
+                    double reel2 = atof(reel);
+                    ret = read(r, &caracter, sizeof(char));
+                    if (ret < 0) {
+                        return (EXIT_FAILURE);
+                    }
+                    char imaginaire[200];
+                    while (strcmp(&caracter, &vide) != 0) {
+                        strcpy(imaginaire, &caracter);
+                        ret = read(r, &caracter, sizeof(char));
+                        if (ret < 0) {
+                            return (EXIT_FAILURE);
+                        }
+                    }
+                    double imaginaire2 = atof(imaginaire);
+
+
+
+                    //fin de la lecture d'une fractal.
+
+
+
+
+
+
+
+
+
+                    struct fractal *fractal_a_creer;
+                    int place;
+                    fractal_a_creer = fractal_new(nom, la_largeur2, la_longeur2, (double) reel2, (double) imaginaire2);
+                    sem_wait(&empty1);
+                    pthread_mutex_lock(&mutex1);
+                    if (sem_getvalue(&full1, &place) != 0) {
+                        return (EXIT_FAILURE);
+                    }
+
+
+                    tab1[place] = fractal_a_creer;
+                    //tab1->value=tab1->value+1;
+                    pthread_mutex_unlock(&mutex1);
+                    sem_post(&full1);
+                }
+
             }
-            ret = read(r, &caracter, sizeof(char));
+
         }
-        char nom[65];
-        while (strcmp(&caracter, &vide) != 0) {
-            strcpy(nom, &caracter);//A TESTER!!!!
-            ret = read(r, &caracter, sizeof(char));
-            if (ret < 0) {
-                return (EXIT_FAILURE);
-            }
-        }
-        ret = read(r, &caracter, sizeof(char));// a faire car il faut passer au caractère suivant
-        if (ret < 0) {
-            return (EXIT_FAILURE);
-        }
-        char la_largeur[200];//a discuter j'ai mis 200 en ne sachant pas la longeure que pouvait avoir la longeur et la la_largeur mais on parle de 32 bits
-        while (strcmp(&caracter, &vide) != 0) {
-            strcpy(la_largeur, &caracter);
-            ret = read(r, &caracter, sizeof(char));
-            if (ret < 0) {
-                return (EXIT_FAILURE);
-            }
-        }
-        int la_largeur2 = atoi(la_largeur);
-        ret = read(r, &caracter, sizeof(char));// a faire car il faut passer au caractère suivant
-        if (ret < 0) {
-            return (EXIT_FAILURE);
-        }
-        char la_longeur[200];
-        while (strcmp(&caracter, &vide) != 0) {
-            strcpy(la_longeur, &caracter);
-            ret = read(r, &caracter, sizeof(char));
-            if (ret < 0) {
-                return (EXIT_FAILURE);
-            }
-        }
-        int la_longeur2 = atoi(la_longeur);
-        ret = read(r, &caracter, sizeof(char));
-        if (ret < 0) {
-            return (EXIT_FAILURE);
-        }
-        char reel[200];
-        while (strcmp(&caracter, &vide) != 0) {
-            strcpy(reel, &caracter);
-            ret = read(r, &caracter, sizeof(char));
-            if (ret < 0) {
-                return (EXIT_FAILURE);
-            }
-        }
-        double reel2 = atof(reel);
-        ret = read(r, &caracter, sizeof(char));
-        if (ret < 0) {
-            return (EXIT_FAILURE);
-        }
-        char imaginaire[200];
-        while (strcmp(&caracter, &vide) != 0) {
-            strcpy(imaginaire, &caracter);
-            ret = read(r, &caracter, sizeof(char));
-            if (ret < 0) {
-                return (EXIT_FAILURE);
-            }
-        }
-        double imaginaire2 = atof(imaginaire);
-
-
-
-        //fin de la lecture d'une fractal.
-
-
-
-
-
-
-
-
-
-        struct fractal *fractal_a_creer;
-        int place;
-        fractal_a_creer = fractal_new(nom, la_largeur2, la_longeur2, (double) reel2, (double) imaginaire2);
-        sem_wait(&empty1);
-        pthread_mutex_lock(&mutex1);
-        if (sem_getvalue(&full1, &place) != 0) {
-            return (EXIT_FAILURE);
-        }
-
-
-        tab1[place] = fractal_a_creer;
-        //tab1->value=tab1->value+1;
-        pthread_mutex_unlock(&mutex1);
-        sem_post(&full1);
         compteur++;
     }
 }
@@ -271,7 +282,7 @@ void *producer (int check, int flag) {//Si flag est true, alors c'est qu'il y a 
 
 
 
-void *proconsumer(void){
+void *proconsumer(void * param){
     struct fractal *fractal_a_calculer;
     struct fractal *fractal_a_free;
     int place;
@@ -308,7 +319,7 @@ void *proconsumer(void){
 
 
 
-void *consumer (void){
+void *consumer (void * param){
     struct fractal *fractal_moyenne;
     struct fractal *fractal_a_free;
     struct fractal *fractal_a_conserver;
