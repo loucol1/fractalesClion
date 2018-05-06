@@ -1,10 +1,19 @@
 
 
+CFLAGS = -Wall -std=c99 -g
+LDFLAGS = -lm -pthread  -L$(HOME)/local/lib -lSDL
+LIBFILE = libfractal/libfractal.a
 
-fractal.o:fractal.c
-    gcc fractal.o -o fractal.c -c
+main : main.o $(LIBFILE)
+	@gcc -o main main.o $(LIBFILE) $(LDFLAGS)
 
-main.o:main.c fractal.h
-    gcc main.o -o main.c -c
+main.o : main.c
+	@gcc -c $(CFLAGS) main.c
+
+$(LIBFILE) :
+	@cd libfractal && make
+
+clean :
+	@rm main main.o *.bmp
 
 
