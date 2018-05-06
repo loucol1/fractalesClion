@@ -13,6 +13,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <errno.h>
 
 
 
@@ -67,7 +68,7 @@ void *producer (void * param) {//Si flag est true, alors c'est qu'il y a -d ds l
             int i = 0;
             char diese = '#';
             if (strcmp(&lpBuffer[i], &diese) == 0) {
-                return -1;
+                fprintf(stderr, "%s\n", strerror(errno));
             }
             char nom[65];
             char vide = ' ';
@@ -109,11 +110,12 @@ void *producer (void * param) {//Si flag est true, alors c'est qu'il y a -d ds l
 
             struct fractal *fractal_a_creer;
             int place;
-            fractal_a_creer = fractal_new(nom, largeur2, hauteur2, reelle2, imaginaire2);
+
             sem_wait(&empty1);
             pthread_mutex_lock(&mutex1);
+            fractal_a_creer = fractal_new(nom, largeur2, hauteur2, reelle2, imaginaire2);
             if (sem_getvalue(&full1, &place) != 0) {
-                return (EXIT_FAILURE);
+                fprintf(stderr, "%s\n", strerror(errno));
             }
 
 
@@ -132,20 +134,20 @@ void *producer (void * param) {//Si flag est true, alors c'est qu'il y a -d ds l
             if (flag) {
                 r = open(*argv[3 + compteur], O_RDONLY);//attention, uniquement si -d
                 if (r < 0) {
-                    return -1;
+                    fprintf(stderr, "%s\n", strerror(errno));
                 }
 
             } else {
                 r = open(*argv[2 + compteur], O_RDONLY);//attention, uniquement si PAS -d
                 if (r < 0) {
-                    return -1;
+                    fprintf(stderr, "%s\n", strerror(errno));
                 }
             }
 
             char caracter;
-            int ret = read(r, &caracter, sizeof(char));
+            ssize_t ret = read(r, &caracter, sizeof(char));
             if (ret < 0) {
-                return (EXIT_FAILURE);
+                fprintf(stderr, "%s\n", strerror(errno));
             }
             char vide = ' ';
             char fin_de_ligne = '\n';
@@ -157,7 +159,7 @@ void *producer (void * param) {//Si flag est true, alors c'est qu'il y a -d ds l
                                     0; w++) {//Si le premier element de la ligne est vide, il faut aller a la ligne suivante
                         ret = read(r, &caracter, sizeof(char));
                         if (ret < 0) {
-                            return (EXIT_FAILURE);
+                            fprintf(stderr, "%s\n", strerror(errno));
                         }
                         if (ret == 0) {
                             //c'est la fin du fichier
@@ -172,7 +174,7 @@ void *producer (void * param) {//Si flag est true, alors c'est qu'il y a -d ds l
                                     0; w++) {//Si la premier element de la ligne est un diese, il faut aller a la ligne suiv
                         ret = read(r, &caracter, sizeof(char));
                         if (ret < 0) {
-                            return (EXIT_FAILURE);
+                            fprintf(stderr, "%s\n", strerror(errno));
                         }
                         if (ret == 0) {
                             //c'est la fin du fichier
@@ -186,58 +188,58 @@ void *producer (void * param) {//Si flag est true, alors c'est qu'il y a -d ds l
                         strcpy(nom, &caracter);//A TESTER!!!!
                         ret = read(r, &caracter, sizeof(char));
                         if (ret < 0) {
-                            return (EXIT_FAILURE);
+                            fprintf(stderr, "%s\n", strerror(errno));
                         }
                     }
                     ret = read(r, &caracter, sizeof(char));// a faire car il faut passer au caractère suivant
                     if (ret < 0) {
-                        return (EXIT_FAILURE);
+                        fprintf(stderr, "%s\n", strerror(errno));
                     }
                     char la_largeur[200];//a discuter j'ai mis 200 en ne sachant pas la longeure que pouvait avoir la longeur et la la_largeur mais on parle de 32 bits
                     while (strcmp(&caracter, &vide) != 0) {
                         strcpy(la_largeur, &caracter);
                         ret = read(r, &caracter, sizeof(char));
                         if (ret < 0) {
-                            return (EXIT_FAILURE);
+                            fprintf(stderr, "%s\n", strerror(errno));
                         }
                     }
                     int la_largeur2 = atoi(la_largeur);
                     ret = read(r, &caracter, sizeof(char));// a faire car il faut passer au caractère suivant
                     if (ret < 0) {
-                        return (EXIT_FAILURE);
+                        fprintf(stderr, "%s\n", strerror(errno));
                     }
                     char la_longeur[200];
                     while (strcmp(&caracter, &vide) != 0) {
                         strcpy(la_longeur, &caracter);
                         ret = read(r, &caracter, sizeof(char));
                         if (ret < 0) {
-                            return (EXIT_FAILURE);
+                            fprintf(stderr, "%s\n", strerror(errno));
                         }
                     }
                     int la_longeur2 = atoi(la_longeur);
                     ret = read(r, &caracter, sizeof(char));
                     if (ret < 0) {
-                        return (EXIT_FAILURE);
+                        fprintf(stderr, "%s\n", strerror(errno));
                     }
                     char reel[200];
                     while (strcmp(&caracter, &vide) != 0) {
                         strcpy(reel, &caracter);
                         ret = read(r, &caracter, sizeof(char));
                         if (ret < 0) {
-                            return (EXIT_FAILURE);
+                            fprintf(stderr, "%s\n", strerror(errno));
                         }
                     }
                     double reel2 = atof(reel);
                     ret = read(r, &caracter, sizeof(char));
                     if (ret < 0) {
-                        return (EXIT_FAILURE);
+                        fprintf(stderr, "%s\n", strerror(errno));
                     }
                     char imaginaire[200];
                     while (strcmp(&caracter, &vide) != 0) {
                         strcpy(imaginaire, &caracter);
                         ret = read(r, &caracter, sizeof(char));
                         if (ret < 0) {
-                            return (EXIT_FAILURE);
+                            fprintf(stderr, "%s\n", strerror(errno));
                         }
                     }
                     double imaginaire2 = atof(imaginaire);
@@ -256,11 +258,11 @@ void *producer (void * param) {//Si flag est true, alors c'est qu'il y a -d ds l
 
                     struct fractal *fractal_a_creer;
                     int place;
-                    fractal_a_creer = fractal_new(nom, la_largeur2, la_longeur2, (double) reel2, (double) imaginaire2);
                     sem_wait(&empty1);
                     pthread_mutex_lock(&mutex1);
+                    fractal_a_creer = fractal_new(nom, la_largeur2, la_longeur2, reel2, imaginaire2);
                     if (sem_getvalue(&full1, &place) != 0) {
-                        return (EXIT_FAILURE);
+                        fprintf(stderr, "%s\n", strerror(errno));
                     }
 
 
@@ -289,11 +291,11 @@ void *proconsumer(void * param){
     struct fractal *fractal_a_calculer;
     struct fractal *fractal_a_free;
     int place;
-    while(true){//a changer en while(le producer a fini && le tableau est vide)
+    while(){//a changer en while(le producer a fini && le tableau est vide)
         sem_wait(&full1);
         pthread_mutex_lock(&mutex1);
         if(sem_getvalue(&full1,&place)!=0){
-            return (EXIT_FAILURE);
+            fprintf(stderr, "%s\n", strerror(errno));
         }
         fractal_a_free=tab1[place];
         fractal_a_calculer=fractal_new(fractal_a_free->name,fractal_a_free->width,fractal_a_free->height,fractal_a_free->a,fractal_a_free->b);
@@ -309,7 +311,7 @@ void *proconsumer(void * param){
         sem_wait(&empty2);
         pthread_mutex_lock(&mutex2);
         if(sem_getvalue(&full2,&place)!=0){
-            return (EXIT_FAILURE);
+            fprintf(stderr, "%s\n", strerror(errno));
         }
         tab2[place]=fractal_a_calculer;
         //tab2->value=tab2->value+1;
@@ -330,11 +332,11 @@ void *consumer1 (void * param){// pas de -d ds la main
     int premier=1;
     int *b;
     int place;
-    while(true){//a changer en while(le proconsummer a fini && le tableau est vide)
+    while(){//a changer en while(le proconsummer a fini && le tableau est vide)
         sem_wait(&full2);
         pthread_mutex_lock(&mutex2);
         if(sem_getvalue(&full2,&place)!=0){
-            return (EXIT_FAILURE);
+            fprintf(stderr, "%s\n", strerror(errno));
         }
         fractal_a_free=tab2[place];
         fractal_moyenne=fractal_new(fractal_a_free->name,fractal_a_free->width,fractal_a_free->height,fractal_a_free->a,fractal_a_free->b);
@@ -382,11 +384,11 @@ void *consumer2 (void * param){// -d ds la main
     //int premier=1;
     int *b;
     int place;
-    while(true){//a changer en while(le proconsummer a fini && le tableau est vide)
+    while(){//a changer en while(le proconsummer a fini && le tableau est vide)
         sem_wait(&full2);
         pthread_mutex_lock(&mutex2);
         if(sem_getvalue(&full2,&place)!=0){
-            return (EXIT_FAILURE);
+            fprintf(stderr, "%s\n", strerror(errno));
         }
         fractal_a_free=tab2[place];
         fractal_moyenne=fractal_new(fractal_a_free->name,fractal_a_free->width,fractal_a_free->height,fractal_a_free->a,fractal_a_free->b);
@@ -445,7 +447,7 @@ int main (int argc, char *argv[]) {
     }
 
     if (strcmp(c, "-d") == 0) {//si -d est présent ds la main
-        
+
 
 
         compt = argc - 4;

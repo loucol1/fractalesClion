@@ -1,8 +1,8 @@
-# Install script for directory: C:/Users/Louis Colin/Documents/universite/2_Bac/Q4/info Clion
+# Install script for directory: /cygdrive/c/Users/Louis Colin/Documents/universite/2_Bac/Q4/info Clion
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/info_Clion")
+  set(CMAKE_INSTALL_PREFIX "/usr/local")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Users/Louis Colin/Documents/universite/2_Bac/Q4/info Clion/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/cygdrive/c/Users/Louis Colin/Documents/universite/2_Bac/Q4/info Clion/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

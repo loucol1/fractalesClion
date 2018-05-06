@@ -1,10 +1,9 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/info_Clion.dir/project_2018_template/libfractal/fractal.c.obj"
-  "CMakeFiles/info_Clion.dir/project_2018_template/libfractal/tools.c.obj"
-  "CMakeFiles/info_Clion.dir/project_2018_template/main.c.obj"
+  "CMakeFiles/info_Clion.dir/project_2018_template/libfractal/fractal.c.o"
+  "CMakeFiles/info_Clion.dir/project_2018_template/libfractal/tools.c.o"
+  "CMakeFiles/info_Clion.dir/project_2018_template/main.c.o"
   "info_Clion.pdb"
   "info_Clion.exe"
-  "info_Clion.exe.manifest"
   "libinfo_Clion.dll.a"
 )
 
