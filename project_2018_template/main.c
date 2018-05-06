@@ -44,20 +44,23 @@ struct fractal *tab2[20];
  *
  */
 
-void *producer (int check, int flag) {//Si flag est true, alors c'est qu'il y a -d ds la main
+void *producer (void * param) {//Si flag est true, alors c'est qu'il y a -d ds la main (int check, int flag)
 
+    int *check=(int *)param;
+    int flag=*(check+1);
 
 
 
     int compteur = 0;
 
-    while (compteur != check) {
+    while (compteur != *check) {
         char tiret = '-';
         /*
          * Si le fichier est un tiret
          */
         if ((flag && strcmp(*argv[3 + compteur], &tiret) == 0) || (!flag && strcmp(*argv[2 + compteur], &tiret) == 0)) {
             char lpBuffer[200];
+
 
             printf("Entrez une chaine de caracteres : ");
             fgets(lpBuffer, sizeof(lpBuffer), stdin);
@@ -319,10 +322,12 @@ void *proconsumer(void * param){
 
 
 
-void *consumer (void * param){
+void *consumer1 (void * param){// pas de -d ds la main
+    char *doc_final=(char *) param;
     struct fractal *fractal_moyenne;
     struct fractal *fractal_a_free;
     struct fractal *fractal_a_conserver;
+    int premier=1;
     int *b;
     int place;
     while(true){//a changer en while(le proconsummer a fini && le tableau est vide)
@@ -348,17 +353,59 @@ void *consumer (void * param){
         }
         a_comparer=a_comparer/(max_tableau);//a cheker si on mettrait pas plutot un double et une division plus précise.
         if(a_comparer>le_plus_grand){
-            le_plus_grand=a_comparer;
-            free(fractal_a_conserver);
-            fractal_a_conserver=fractal_moyenne;
+            if(premier){
+                fractal_a_conserver=fractal_moyenne;
+                premier=0;
+            }
+            else {
+                le_plus_grand = a_comparer;
+                free(fractal_a_conserver);//normalement c'est ok nn?
+                fractal_a_conserver = fractal_moyenne;
+            }
         }
         else{
             free(fractal_moyenne);
         }
 
     }
+    int fin=write_bitmap_sdl(fractal_a_conserver,doc_final);
 
 }
+
+
+void *consumer2 (void * param){// -d ds la main
+
+    char *doc_final;
+    struct fractal *fractal_moyenne;
+    struct fractal *fractal_a_free;
+    //struct fractal *fractal_a_conserver;
+    //int premier=1;
+    int *b;
+    int place;
+    while(true){//a changer en while(le proconsummer a fini && le tableau est vide)
+        sem_wait(&full2);
+        pthread_mutex_lock(&mutex2);
+        if(sem_getvalue(&full2,&place)!=0){
+            return (EXIT_FAILURE);
+        }
+        fractal_a_free=tab2[place];
+        fractal_moyenne=fractal_new(fractal_a_free->name,fractal_a_free->width,fractal_a_free->height,fractal_a_free->a,fractal_a_free->b);
+        b=fractal_a_free->value;//obligé de faire ca car fractal_new ne prend pas en compte le tableau value (ici, hyper important)
+        fractal_moyenne->value=b;
+        free(fractal_a_free);
+        //tab2->value=tab2->value-1;//prend une fractal dont il faut calculer la moyenne +decremente et remplace l'endroit du tableau dont on a pris la fract par NULL
+        pthread_mutex_unlock(&mutex2);
+        sem_post(&empty2);
+        doc_final=fractal_moyenne->name;
+
+        int fin=write_bitmap_sdl(fractal_moyenne,doc_final);
+        free(fractal_moyenne);
+
+    }
+
+}
+
+
 
 
 
@@ -398,6 +445,9 @@ int main (int argc, char *argv[]) {
     }
 
     if (strcmp(c, "-d") == 0) {//si -d est présent ds la main
+        
+
+
         compt = argc - 4;
         nthread = *argv[2];
 
@@ -409,12 +459,13 @@ int main (int argc, char *argv[]) {
         pthread_t thread_co;
         int arg[2];
         arg[0] = compt;
-        arg[1] = 1;
-        int err=pthread_create(&(thread_pro),NULL,&producer,arg);
+        arg[1] = 1;//-d ds la main
+        char *doc_fin=argv[argc-1];
+        int err=pthread_create(&(thread_pro),NULL,&producer, arg);
         if (err != 0) {
             return (EXIT_FAILURE);
         }
-        err = pthread_create(&(thread_co), NULL, &consumer, NULL);
+        err = pthread_create(&(thread_co), NULL, &consumer2, NULL);
         if (err != 0) {
             return (EXIT_FAILURE);
         }
@@ -443,7 +494,7 @@ int main (int argc, char *argv[]) {
         if (err != 0) {
             return (EXIT_FAILURE);
         }
-        err = pthread_create(&(thread_co), NULL, &consumer, NULL);
+        err = pthread_create(&(thread_co), NULL, &consumer1, NULL);
         if (err != 0) {
             return (EXIT_FAILURE);
         }

@@ -8,4 +8,4 @@ include_directories(libfractal)
 add_executable(project_2018_template
         libfractal/fractal.c
         libfractal/fractal.h
-        main.c cmake-build-debug/tools.c)
+        main.c libfractal/tools.c)

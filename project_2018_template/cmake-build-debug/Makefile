@@ -150,6 +150,33 @@ libfractal/fractal.c.s:
 	$(MAKE) -f CMakeFiles/project_2018_template.dir/build.make CMakeFiles/project_2018_template.dir/libfractal/fractal.c.s
 .PHONY : libfractal/fractal.c.s
 
+libfractal/tools.o: libfractal/tools.c.o
+
+.PHONY : libfractal/tools.o
+
+# target to build an object file
+libfractal/tools.c.o:
+	$(MAKE) -f CMakeFiles/project_2018_template.dir/build.make CMakeFiles/project_2018_template.dir/libfractal/tools.c.o
+.PHONY : libfractal/tools.c.o
+
+libfractal/tools.i: libfractal/tools.c.i
+
+.PHONY : libfractal/tools.i
+
+# target to preprocess a source file
+libfractal/tools.c.i:
+	$(MAKE) -f CMakeFiles/project_2018_template.dir/build.make CMakeFiles/project_2018_template.dir/libfractal/tools.c.i
+.PHONY : libfractal/tools.c.i
+
+libfractal/tools.s: libfractal/tools.c.s
+
+.PHONY : libfractal/tools.s
+
+# target to generate assembly for a file
+libfractal/tools.c.s:
+	$(MAKE) -f CMakeFiles/project_2018_template.dir/build.make CMakeFiles/project_2018_template.dir/libfractal/tools.c.s
+.PHONY : libfractal/tools.c.s
+
 main.o: main.c.o
 
 .PHONY : main.o
@@ -216,6 +243,9 @@ help:
 	@echo "... libfractal/fractal.o"
 	@echo "... libfractal/fractal.i"
 	@echo "... libfractal/fractal.s"
+	@echo "... libfractal/tools.o"
+	@echo "... libfractal/tools.i"
+	@echo "... libfractal/tools.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

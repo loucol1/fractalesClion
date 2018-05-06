@@ -85,6 +85,9 @@
 		<Unit filename="/cygdrive/c/Users/Louis Colin/Documents/universite/2_Bac/Q4/info Clion/project_2018_template/libfractal/fractal.h">
 			<Option target="project_2018_template"/>
 		</Unit>
+		<Unit filename="/cygdrive/c/Users/Louis Colin/Documents/universite/2_Bac/Q4/info Clion/project_2018_template/libfractal/tools.c">
+			<Option target="project_2018_template"/>
+		</Unit>
 		<Unit filename="/cygdrive/c/Users/Louis Colin/Documents/universite/2_Bac/Q4/info Clion/project_2018_template/main.c">
 			<Option target="project_2018_template"/>
 		</Unit>
